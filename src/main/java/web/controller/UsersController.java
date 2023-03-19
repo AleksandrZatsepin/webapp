@@ -20,21 +20,20 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/all")
     public String startUsers(@RequestParam(value = "count", defaultValue = "5") int count, ModelMap model) {
         model.addAttribute("users", userService.getUsers().stream().limit(count).collect(Collectors.toList()));
-        return null;
+        return "allUsers";
     }
 
-    @PostMapping("/new")
-    public String addtUser(@ModelAttribute("user") User user, Model model){
+    @PostMapping()
+    public String createUser(@ModelAttribute("user") User user){
         userService.add(user);
-        model.addAttribute(user);
-        return "/new";
+        return "redirect: /users/all";
     }
-    @GetMapping("/car")
-    public String printCars( ) {
-
-        return "car";
+    @GetMapping("/new")
+    public String newUser(Model model ) {
+        model.addAttribute("user", new User());
+        return "new";
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -45,7 +46,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public EntityManagerFactory getEntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -54,19 +55,19 @@ public class DatabaseConfig {
         em.setJpaVendorAdapter(vendorAdapter);
         Properties props = getProperties();
         em.setJpaProperties(props);
-        return em.getObject();
+        return em;
     }
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(getEntityManagerFactory());
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
+//    @Bean
+//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+//        return new PersistenceExceptionTranslationPostProcessor();
+//    }
 
     private Properties getProperties() {
         Properties props = new Properties();

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+</head>
+<body>
+<div>
+    <th:block th:each="user : ${users}">
+        <ul>
+            <li>name: <span th:text="*{user.getName()}">name</span></li>
+            <li>Lastname: <span th:text="*{user.getLastName}">lastName</span></li>
+            <li>Workplace : <span th:text="*{user.getWorkPlace()}">workPlace</span></li>
+        </ul>
+    </th:block>
+</div>
+</body>
+</html>
