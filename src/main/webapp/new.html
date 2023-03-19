@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/people}" th:object ="${user}">
+    <label for="name">name</label>
+    <input name="name" th:field="*{name}" id="name">
+
+    <br>
+    <label for="lastname">lastname</label>
+    <input name="lastname" th:field="*{lastname}" id="lastname">
+
+    <br>
+    <label for="workPlace">name</label>
+    <input name="workPlace" th:field="*{workplace}" id="workPlace">
+
+    <br>
+
+    <input type="submit" value="Add Person">
+    <br>
+    <input type="submit" value="Show All">
+
+</form>
+
+</body>
+</html>
