@@ -5,14 +5,14 @@
     <title>Users</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/WEB-INF/pages/users}" th:object ="${user}">
+<form th:method="POST" th:action="@{/users/new}" th:object ="${user}">
     <label for="name">name</label>
     <input name="name" th:field="*{name}" id="name">
     <br>
     <label for="lastname">lastname</label>
     <input name="lastname" th:field="*{lastName}" id="lastname">
     <br>
-    <label for="workPlace">name</label>
+    <label for="workPlace">workplace</label>
     <input name="workPlace" th:field="*{workPlace}" id="workPlace">
     <br>
 

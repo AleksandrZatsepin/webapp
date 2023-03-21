@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -20,20 +19,36 @@ public class UsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
-    public String startUsers(@RequestParam(value = "count", defaultValue = "5") int count, ModelMap model) {
-        model.addAttribute("users", userService.getUsers().stream().limit(count).collect(Collectors.toList()));
-        return "allUsers";
+    @GetMapping("/allUsers")
+    public String startUsers(ModelMap model) {
+        model.addAttribute("users", userService.getUsers());
+        return "/users/allUsers";
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public String createUser(@ModelAttribute("user") User user){
         userService.add(user);
-        return "redirect: /users/all";
+        return "redirect: /users/allUsers";
     }
     @GetMapping("/new")
     public String newUser(Model model ) {
         model.addAttribute("user", new User());
-        return "new";
+        return "users/new";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editUser(Model model,@PathVariable("id") long id) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "users/edit";
+    }
+    @PatchMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") User user){
+        userService.updateUser(user);
+        return  "redirect: /users/allUsers";
+    }
+    @DeleteMapping("/{id}")
+    public String deleteUser(@ModelAttribute("user") User user){
+        userService.remove(user);
+        return  "redirect: /users/allUsers";
     }
 }
